@@ -1,6 +1,22 @@
 # movement-physics-system
 
-A 2D gravitational N-body simulation with interactive UI, built with Java 25 + Swing. Click or click-and-drag on the canvas to spawn bodies that gravitationally interact with each other.
+> A 2D gravitational N-body simulation with interactive UI
+
+| | |
+|---|---|
+| ![App Demo](docs/img/app-demo.png) | **Java 25** · **Swing / Java2D** · **Maven** · **RK4 Physics Engine** |
+
+A gravitational N-body simulation where you click or click-and-drag on the canvas to spawn bodies that gravitationally interact with each other in real time. Watch orbits form, bodies collide, and trails paint the void.
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Language** | Java 25 |
+| **UI Framework** | Swing + Java2D (BufferedImage double buffering) |
+| **Build Tool** | Maven 3.6+ |
+| **Physics Integrator** | 4th-order Runge-Kutta (RK4) |
+| **Threading** | Daemon thread (physics) + EDT + Swing Timer (rendering) |
 
 ## Features
 
@@ -44,16 +60,6 @@ Application
   └── Swing Timer (60 fps, EDT)
       └── PanelRenderer.renderToCanvas() + repaint()
 ```
-
-### Package Layout
-
-| Package | Classes | Purpose |
-|---|---|---|
-| `com.example` | `Application` | Entry point — wires everything together |
-| `com.example.config` | `PhysicsConfig`, `RenderConfig` | Tunable constants (gravity, timestep, canvas size, visual params) |
-| `com.example.physics` | `Body`, `BodySnapshot`, `BodyMovementCalculator`, `BodyFactory`, `PhysicsLoop`, `RK4Buffers` | Physics simulation, state management, body creation |
-| `com.example.render` | `SimulationRenderer`, `Trail`, `DragOverlayRenderer`, `BodyInfoPanel` | Canvas rendering, trails, visual overlays |
-| `com.example.ui` | `PanelRenderer`, `DragController`, `DragState` | Swing component, mouse interaction |
 
 ## Physics Engine
 
