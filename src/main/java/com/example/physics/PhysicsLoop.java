@@ -27,7 +27,7 @@ public class PhysicsLoop {
 
     private void run() {
         final double subDt = DT / SUBSTEPS;
-        final long stepNanos = (long) (DT * 1_000_000_000L / 4);
+        final long stepNanos = (long) (DT * 1_000_000_000L / SUBSTEPS);
         long next = System.nanoTime();
         while (running) {
             for (int s = 0; s < SUBSTEPS; s++) sim.calculateTimeStep(subDt);
