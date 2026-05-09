@@ -1,11 +1,10 @@
 package com.example.ui;
 
-import com.example.physics.Body;
-import com.example.physics.BodyFactory;
+import com.example.physics.model.Body;
+import com.example.physics.model.BodyFactory;
 import com.example.physics.BodyMovementCalculator;
 
 import javax.swing.JComponent;
-import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;

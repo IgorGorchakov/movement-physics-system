@@ -1,4 +1,4 @@
-package com.example.physics;
+package com.example.physics.model;
 
 import java.awt.Color;
 import java.util.Random;
@@ -30,14 +30,16 @@ public class BodyFactory {
     }
 
     public Body createRandom(int x, int y, double mass, Color color) {
+        long id = BodyIdentifier.getNext();
         double angle = rng.nextDouble() * 2 * Math.PI;
         double speed = SPAWN_SPEED * (0.5 + rng.nextDouble());
         double vx = speed * Math.cos(angle);
         double vy = speed * Math.sin(angle);
-        return new Body(x, y, mass, vx, vy, color);
+        return new Body(id, x, y, mass, vx, vy, color);
     }
 
     public Body createAimed(int x, int y, int dx, int dy, double mass, Color color) {
+        long id = BodyIdentifier.getNext();
         double vx = dx * DRAG_VELOCITY_SCALE;
         double vy = dy * DRAG_VELOCITY_SCALE;
         double speed = Math.hypot(vx, vy);
@@ -46,6 +48,6 @@ public class BodyFactory {
             vx *= s;
             vy *= s;
         }
-        return new Body(x, y, mass, vx, vy, color);
+        return new Body(id, x, y, mass, vx, vy, color);
     }
 }

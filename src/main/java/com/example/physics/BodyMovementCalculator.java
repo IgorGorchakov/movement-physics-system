@@ -1,6 +1,8 @@
 package com.example.physics;
 
 import com.example.config.RenderConfig;
+import com.example.physics.model.Body;
+import com.example.physics.model.BodySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;

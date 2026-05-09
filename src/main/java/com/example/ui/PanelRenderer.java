@@ -1,7 +1,7 @@
 package com.example.ui;
 
 import com.example.config.RenderConfig;
-import com.example.physics.BodyFactory;
+import com.example.physics.model.BodyFactory;
 import com.example.physics.BodyMovementCalculator;
 import com.example.render.DragOverlayRenderer;
 import com.example.render.SimulationRenderer;

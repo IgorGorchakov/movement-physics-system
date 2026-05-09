@@ -1,7 +1,7 @@
 package com.example.render;
 
 import com.example.physics.BodyMovementCalculator;
-import com.example.physics.BodySnapshot;
+import com.example.physics.model.BodySnapshot;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
