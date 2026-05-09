@@ -18,9 +18,7 @@ public class DragController {
     private final BodyFactory factory;
 
     private volatile boolean dragging = false;
-    private volatile int dragStartX, dragStartY, dragCurX, dragCurY;
-    private double pendingMass;
-    private Color pendingColor;
+    private volatile DragState dragState;
 
     public DragController(BodyMovementCalculator sim, BodyFactory factory) {
         this.sim = sim;
@@ -31,10 +29,8 @@ public class DragController {
         component.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                dragStartX = dragCurX = e.getX();
-                dragStartY = dragCurY = e.getY();
-                pendingMass = factory.randomMass();
-                pendingColor = factory.randomColor();
+                int px = e.getX(), py = e.getY();
+                dragState = new DragState(px, py, px, py, factory.randomMass(), factory.randomColor());
                 dragging = true;
             }
 
@@ -42,13 +38,14 @@ public class DragController {
             public void mouseReleased(MouseEvent e) {
                 if (!dragging) return;
                 dragging = false;
-                int dx = e.getX() - dragStartX;
-                int dy = e.getY() - dragStartY;
+                DragState s = dragState;
+                int dx = e.getX() - s.startX();
+                int dy = e.getY() - s.startY();
                 Body body;
                 if (Math.abs(dx) < CLICK_DRAG_THRESHOLD && Math.abs(dy) < CLICK_DRAG_THRESHOLD) {
-                    body = factory.createRandom(dragStartX, dragStartY, pendingMass, pendingColor);
+                    body = factory.createRandom(s.startX(), s.startY(), s.mass(), s.color());
                 } else {
-                    body = factory.createAimed(dragStartX, dragStartY, dx, dy, pendingMass, pendingColor);
+                    body = factory.createAimed(s.startX(), s.startY(), dx, dy, s.mass(), s.color());
                 }
                 sim.addBody(body);
             }
@@ -57,8 +54,11 @@ public class DragController {
         component.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                dragCurX = e.getX();
-                dragCurY = e.getY();
+                DragState s = dragState;
+                // Only update if still dragging — user may have released between events
+                if (dragging) {
+                    dragState = new DragState(s.startX(), s.startY(), e.getX(), e.getY(), s.mass(), s.color());
+                }
             }
         });
     }
@@ -67,7 +67,12 @@ public class DragController {
         return dragging;
     }
 
+    /**
+     * Returns a consistent snapshot of the current drag state.
+     * The volatile reference guarantees a point-in-time view — all
+     * fields in the returned DragState are from the same EDT write.
+     */
     public DragState snapshot() {
-        return new DragState(dragStartX, dragStartY, dragCurX, dragCurY, pendingMass, pendingColor);
+        return dragState;
     }
 }

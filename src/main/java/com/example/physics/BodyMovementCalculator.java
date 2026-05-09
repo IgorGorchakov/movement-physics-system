@@ -99,6 +99,8 @@ public class BodyMovementCalculator {
 
             for (int i = 0; i < n; i++) {
                 Body b = bodies.get(i);
+                // k1 for position is simply the current velocity (dx/dt = vx).
+                // buf.vx/buf.vy are reused as k1 position buffers below, so capture now.
                 double k1x = buf.vx[i], k1y = buf.vy[i];
                 b.x += dt / 6.0 * (k1x + 2 * buf.k2x[i] + 2 * buf.k3x[i] + buf.k4x[i]);
                 b.y += dt / 6.0 * (k1y + 2 * buf.k2y[i] + 2 * buf.k3y[i] + buf.k4y[i]);
